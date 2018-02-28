@@ -13,10 +13,9 @@ RUN \
     && /usr/bin/php5 /composer.phar selfupdate 1.3.2 \
   )
 
-# COPY etc/ /
-
-# COPY php-fpm.conf php.ini /etc/php5/
-# COPY nginx.conf /etc/nginx/
+COPY php-fpm.conf php.ini /etc/php5/
+COPY nginx.conf /etc/nginx/
+COPY init.sh /
 
 EXPOSE 80
 CMD [ "dumb-init", "/init.sh" ]
