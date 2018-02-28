@@ -23,6 +23,10 @@ RUN ( \
     && apk del .phantom-build-deps \
   )
 
+# We need to preload this separate libiconv for php iconv to work properly on alpine
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
 ENV PHANTOMJS_BINARY /usr/lib/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
 
 COPY php-fpm.conf php.ini /etc/php5/
