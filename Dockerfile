@@ -3,7 +3,7 @@ FROM alpine:3.7
 WORKDIR /srv/
 
 RUN ( \
-    apk add --no-cache dumb-init curl \
+    apk add --no-cache supervisor curl \
   ) && ( \
     apk add --no-cache nginx \
   ) && ( \
@@ -22,7 +22,7 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 COPY php-fpm.conf php.ini /etc/php5/
 COPY nginx.conf /etc/nginx/
-COPY init.sh /
+COPY supervisor.ini /etc/supervisord/supervisor.ini
 
 EXPOSE 80
-CMD [ "dumb-init", "/init.sh" ]
+CMD [ "/usr/bin/supervisord", "--nodaemon",  "--configuration", "/etc/supervisord/supervisor.ini"]
